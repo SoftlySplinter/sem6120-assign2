@@ -1,5 +1,8 @@
-# SEM/CSM6120 Assignment: October 2013
-## Solving Travelling Salesman Problems with Genetic Algorithms
+SEM/CSM6120 Assignment: October 2013
+====================================
+
+Solving Travelling Salesman Problems with Genetic Algorithms
+------------------------------------------------------------
 
 The Travelling Salesman Problem (TSP) can be defined as follows: Given a 
 collection of cities and the cost of travelling between any two cities, find a 
@@ -60,7 +63,9 @@ and not share any material with other students (your attention is drawn to the
 plagiarism warning given in the Student Handbook).
 
 
-### Part 1: Implementing the system (10 marks)
+Part 1: Implementing the system (10 marks)
+##########################################
+
 You should design and implement a GA for solving TSPs. For this, you will need 
 to consider the representation (how to represent solutions), how to achieve 
 crossover and mutation, and other issues (how to avoid looping, how to ensure 
@@ -71,11 +76,12 @@ language), show a sensible breakdown of classes and use of inheritance.
 Provide suitable documentation and commenting for your program.
 
 Your program should:
-* Read in a data file and translate the co-ordinates to distances between 
+
+- Read in a data file and translate the co-ordinates to distances between 
   cities.
-* Provide facilities for the user to set the usual GA parameters (crossover
-   type, mutation rate, number of generations, population size).
-* Output some statistics concerning the performance of the program on the TSP, 
+- Provide facilities for the user to set the usual GA parameters (crossover
+  type, mutation rate, number of generations, population size).
+- Output some statistics concerning the performance of the program on the TSP, 
   such as runtime, number of generations, best solution found etc.
  
 You may find some resources on the web useful - feel free to look at these, but
@@ -88,7 +94,9 @@ rkj@aber.ac.uk any time before the deadline. You should include a sentence or
 two that describes how to run the program and set the various GA parameters.
 
 
-### Part 2: The report (50 marks)
+Part 2: The report (50 marks)
+#############################
+
 For the first part of the report, show the design of the system, discussing the
 choices you made in part 1.
 
