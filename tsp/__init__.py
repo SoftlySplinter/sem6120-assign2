@@ -1,9 +1,9 @@
-from tsp.crossover import CrossoverFactory
+from tsp.graph import Graph
+from tsp.data import DataLoader
 
 def main():
-  print "TSP"
-  fact = CrossoverFactory()
-  print fact.getStrategy("default").crossover("1","2")
+  d = DataLoader()
+  print d.load("data")
 
 if __name__ == "__main__":
   main()
