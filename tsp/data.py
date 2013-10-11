@@ -7,11 +7,11 @@ class ParseException(Exception):
 
 class DataLoader:
   def __init__(self):
-    self.tokens = {"NAME:": self.parse_name, 
-                   "COMMENT:": self.parse_comment, 
-                   "TYPE:": self.parse_type, 
-                   "DIMENSION:": self.parse_dimension, 
-                   "EDGE_WEIGHT_TYPE:": self.parse_edge_weight_type,
+    self.tokens = {"NAME": self.parse_name, 
+                   "COMMENT": self.parse_comment, 
+                   "TYPE": self.parse_type, 
+                   "DIMENSION": self.parse_dimension, 
+                   "EDGE_WEIGHT_TYPE": self.parse_edge_weight_type,
                    "NODE_COORD_SECTION": self.parse_node_coord_section,}
   
   def load(self, file_name):
@@ -36,13 +36,14 @@ class DataLoader:
   def parse_line(self, line):
     token = self.get_token(line)
     if token == None:
-      raise ParseException("No valid token found in line: {}".format(line))
-    self.tokens[token](line.replace(token, '').strip())
+      raise ParseException("No valid token found in line: '{}'".format(line))
+    self.tokens[token](re.match('^{} *:?(.*)$'.format(token), line).group(1).strip())
 
   def get_token(self, line):
-    for token in self.tokens:
-      if re.match('^{}.*$'.format(token), line):
-        return token
+    split = line.split(':')
+    token = split[0].strip()
+    if token in self.tokens:
+      return token
 
   def parse_name(self, name):
     self.graph.name = name
