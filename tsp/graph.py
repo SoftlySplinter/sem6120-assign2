@@ -1,9 +1,3 @@
-class Node:
-  def __init__(self, id, x, y):
-    self.id = id
-    self.x = x
-    self.y = y
-
 class Graph:
   def __init__(self):
     self.edge_weight_types = { "EUC_2D": self.euclidean_distance_2d }
@@ -12,7 +6,7 @@ class Graph:
     self.comment = ""
     self.dimension = -1
     self.edge_weight_type = None
-    self.nodes = []
+    self.nodes = {}
 
   def valid(self):
     print int(self.dimension) == len(self.nodes) and self.edge_weight_type in self.edge_weight_types
