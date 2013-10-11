@@ -9,7 +9,9 @@ def main():
   args = parser.parse_args()
   d = DataLoader()
   print args.data_file
-  print d.load(args.data_file[0])
+  g = d.load(args.data_file[0])
+  g.preprocess()
+  print g
 
 if __name__ == "__main__":
   main()

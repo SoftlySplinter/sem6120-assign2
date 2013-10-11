@@ -7,16 +7,27 @@ class Graph:
     self.dimension = -1
     self.edge_weight_type = None
     self.nodes = {}
+    self.distances = {}
 
   def valid(self):
-    print int(self.dimension) == len(self.nodes) and self.edge_weight_type in self.edge_weight_types
-    return self.dimension == len(self.nodes) and self.edge_weight_type in self.edge_weight_types
+    return (self.dimension == len(self.nodes) and  
+            self.edge_weight_type in self.edge_weight_types)
 
   def distance(self, n1, n2):
-    return self.edge_weight_types[self.edge_weight_type]
+    return self.edge_weight_types[self.edge_weight_type](n1, n2)
 
-  def euclidean_distance_2d(self, n1, n2):
-    return pow(n1.x - n2.x, 2) + pow(n1.y - n2.y, 2)
+  def euclidean_distance_2d(self, (x1, y1), (x2, y2)):
+    return pow(x1 - x2, 2) + pow(y2 - y2, 2)
+
+  def preprocess(self):
+    for i in self.nodes:
+      for j in self.nodes:
+        self.distances[(i,j)] = self.distance(self.nodes[i], self.nodes[j])
 
   def __str__(self):
-    return 'Name: {}\nComments: \n{}Dimension: {}\nEdge Weight Type: {}'.format(self.name, self.comment, self.dimension, self.edge_weight_type)
+    return ('Name: {}\nComments: \n{}Dimension: {}\nEdge Weight Type: {}\n{}'
+            .format(self.name, 
+                    self.comment, 
+                    self.dimension, 
+                    self.edge_weight_type, 
+                    self.nodes,))
