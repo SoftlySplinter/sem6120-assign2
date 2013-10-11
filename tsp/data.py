@@ -1,6 +1,6 @@
 import re
 
-from tsp import Graph
+from tsp import Graph, Node
 
 class ParseException(Exception):
   pass
@@ -55,7 +55,7 @@ class DataLoader:
       raise ParseException("{} is not a valid type".format(type))
 
   def parse_dimension(self, dimension):
-    self.graph.dimension = dimension
+    self.graph.dimension = int(dimension)
 
   def parse_edge_weight_type(self, type):
     self.graph.edge_weight_type = type
@@ -64,4 +64,5 @@ class DataLoader:
     self.parsing_nodes = True
 
   def parse_node(self, line):
-    pass
+    args = line.strip().split(" ")
+    self.graph.nodes.append(Node(int(args[0]), float(args[1]), float(args[2])))
