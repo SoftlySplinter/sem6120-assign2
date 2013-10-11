@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from tsp.graph import Graph, Node
+from tsp.graph import Graph
 from tsp.data import DataLoader
 
 def main():

@@ -1,6 +1,6 @@
 import re
 
-from tsp import Graph, Node
+from tsp import Graph
 
 class ParseException(Exception):
   pass
@@ -65,4 +65,4 @@ class DataLoader:
 
   def parse_node(self, line):
     args = line.strip().split(" ")
-    self.graph.nodes.append(Node(int(args[0]), float(args[1]), float(args[2])))
+    self.graph.nodes[int(args[0])] = (float(args[1]), float(args[2]))
