@@ -1,9 +1,15 @@
-from tsp.graph import Graph
+from argparse import ArgumentParser
+
+from tsp.graph import Graph, Node
 from tsp.data import DataLoader
 
 def main():
+  parser = ArgumentParser(description="Solving the TSP through GAs")
+  parser.add_argument('data_file', metavar='D', nargs=1)
+  args = parser.parse_args()
   d = DataLoader()
-  print d.load("data")
+  print args.data_file
+  print d.load(args.data_file[0])
 
 if __name__ == "__main__":
   main()
