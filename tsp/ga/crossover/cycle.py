@@ -26,7 +26,7 @@ class CycleCrossover(CrossoverStrategy):
     # Duplicate the genes from p1
     offspring = [gene for gene in p1]
 
-    i = random.randint(0, len(p1))
+    i = random.randint(0, len(p1) - 1)
     start_i = i
     cycle = False
 
