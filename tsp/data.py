@@ -14,7 +14,7 @@ class DataLoader:
                    "EDGE_WEIGHT_TYPE": self.parse_edge_weight_type,
                    "NODE_COORD_SECTION": self.parse_node_coord_section,}
   
-  def load(self, file_name):
+  def load(self, file_name, **kwargs):
     self.errors = {}
     self.parsing_nodes = False
     self.graph = Graph()
@@ -24,6 +24,8 @@ class DataLoader:
         self.parse(line)
 
     if self.graph.valid():
+      if 'preprocess' in kwargs and kwargs['preprocess']:
+        self.graph.preprocess()
       return self.graph
     raise ParseException('Invalid Graph')
 
