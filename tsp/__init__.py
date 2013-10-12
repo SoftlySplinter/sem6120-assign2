@@ -21,7 +21,7 @@ def main():
   g = d.load(args.data_file[0], preprocess=args.preprocess)
 
   ga = GAFactory.getGA(args, g)
-  print ga
+  print ga.evaluate()
 
 if __name__ == "__main__":
   main()
