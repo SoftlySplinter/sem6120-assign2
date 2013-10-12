@@ -2,6 +2,7 @@ from tsp.graph import Graph
 
 __all__ = ['Graph', 'main']
 
+import time
 from argparse import ArgumentParser
 
 from tsp.data import DataLoader
@@ -21,7 +22,13 @@ def main():
   g = d.load(args.data_file[0], preprocess=args.preprocess)
 
   ga = GAFactory.getGA(args, g)
-  print ga.evaluate()
+  f = ga.population[0]
+  print f.score
+  while True:
+    ga.step()
+    f = ga.population[0]
+    print f.score
+    
 
 if __name__ == "__main__":
   main()
