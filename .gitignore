@@ -37,3 +37,6 @@ nosetests.xml
 # Editor files
 *~
 *.swp
+
+# Testing files
+test.tsp
