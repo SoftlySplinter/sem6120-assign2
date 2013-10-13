@@ -1,3 +1,5 @@
+import math
+
 class Graph:
   def __init__(self):
     self.edge_weight_types = { "EUC_2D": self.euclidean_distance_2d }
@@ -20,7 +22,7 @@ class Graph:
                                                          self.nodes[n2])
 
   def euclidean_distance_2d(self, (x1, y1), (x2, y2)):
-    return pow(x1 - x2, 2) + pow(y2 - y2, 2)
+    return math.sqrt(pow(x1 - x2, 2) + pow(y2 - y2, 2))
 
   def preprocess(self):
     for i in self.nodes:
