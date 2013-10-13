@@ -3,6 +3,7 @@ from multiprocessing import Pool
 
 from tsp.ga.crossover import CrossoverFactory
 from tsp.ga.chromosome import Chromosome
+from tsp.ga.mutator import MutatorFactory
 
 class GA:
   def __init__(self, population, graph, selector, crossover, mutator, **kwargs):
@@ -11,7 +12,7 @@ class GA:
     self.mutator = mutator
 
     self.crossover_rate = kwargs['crossover_rate'] if 'crossover_rate' in kwargs else 0.6
-    self.mutation_rate = kwargs['mutation_rate'] if 'mutation_rate' in kwargs else 0.1
+    self.mutation_rate = kwargs['mutation_rate'] if 'mutation_rate' in kwargs else 0.01
 
     self.population = [Chromosome.random_init(graph) 
                        for _ in xrange(population)]
@@ -37,8 +38,8 @@ class GA:
 
   def perform_mutation(self, children):
     to_mutate = [child for child in children 
-                 if random.random < self.mutation_rate]
-    self.mutator.mutate(to_mutate)
+                 if random.random() < self.mutation_rate]
+    map(self.mutator.mutate, to_mutate)
 
   def perform_dismissal(self, parents, children):
     temp = parents[:5] + children[5:]
@@ -62,9 +63,9 @@ class GA:
 class GAFactory:
   @classmethod
   def getGA(cls, args, graph):
-    population = 50
+    population = 100
     selector = None
-    crossover = CrossoverFactory().getStrategy(args.crossover)
-    mutator = None
+    crossover = CrossoverFactory().get_scheme(args.crossover)
+    mutator = MutatorFactory().get_mutator(args.mutator)
 
     return GA(population, graph, selector, crossover, mutator)

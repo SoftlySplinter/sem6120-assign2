@@ -30,7 +30,7 @@ class CrossoverFactory:
                         "cycle":   CycleCrossover(),
                        }
 
-  def getStrategy(self, strategy):
+  def get_scheme(self, strategy):
     if strategy not in self.strategies:
       raise Exception("{} not a valid stratergy".format(strategy))
     return self.strategies[strategy]

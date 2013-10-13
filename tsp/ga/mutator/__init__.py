@@ -1,3 +1,6 @@
+
+__all__ = ['DefaultMutator', 'MutatorFactory']
+
 class DefaultMutator(object):
   def mutate(self, chromosome):
     """
@@ -5,10 +8,13 @@ class DefaultMutator(object):
     """
     pass
 
+from tsp.ga.mutator.swap import SwapMutator, SwapAdjecentMutator
 class MutatorFactory:
   def __init__(self):
     self.mutators = {
-      'default': DefaultMutator()
+      'default': DefaultMutator(),
+      'swap': SwapMutator(),
+      'swap-adjecent': SwapAdjecentMutator(),
     }
 
   def get_mutator(self, mutator):
