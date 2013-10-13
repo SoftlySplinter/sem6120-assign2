@@ -9,6 +9,14 @@ from argparse import ArgumentParser
 from tsp.data import DataLoader
 from tsp.ga import GAFactory
 
+__all__ = ['min_node','max_node','main']
+
+import tsp
+
+min_node = (0, 0)
+max_node = (0, 0)
+diff_node = (0, 0)
+
 def main():
   parser = ArgumentParser(description="Solving the TSP through GAs")
   parser.add_argument('data_file', metavar='D', nargs=1, 
@@ -26,6 +34,13 @@ def main():
   
   g = d.load(args.data_file[0], preprocess=args.preprocess)
 
+  tsp.max_node = (max(g.nodes.itervalues(), key=lambda x: x[0])[0],
+                  max(g.nodes.itervalues(), key=lambda x: x[1])[1])
+  tsp.min_node = (min(g.nodes.itervalues(), key=lambda x: x[0])[0],  
+                  min(g.nodes.itervalues(), key=lambda x: x[1])[1])
+
+  tsp.diff_node = (max_node[0] - min_node[0], max_node[1] - min_node[1])
+
   draw_map(g.nodes)
   ga = GAFactory.getGA(args, g)
   f = ga.population[0]
@@ -37,26 +52,26 @@ def main():
 def draw_map(nodes):
   pygame.init()
   info = pygame.display.Info()
-  screen = pygame.display.set_mode((info.current_w,
-                                    info.current_h))
+  screen = pygame.display.set_mode((info.current_w - 100,
+                                    info.current_h - 100))
   screen.fill((255,255,255))
   map(draw_node, nodes.iteritems())
   pygame.display.flip()
 
 def draw_node((id,node)):
   surface = pygame.display.get_surface()
-  x = int((node[0] - 10990) / 1500 * surface.get_width())
-  y = int((node[1] - 41750) / 1750 * surface.get_height())
+  x = int((node[0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_width())
+  y = int((node[1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_height())
   pygame.draw.circle(surface, (0, 0, 0), (x, y), 2)
 
 def draw_path(path, nodes):
   surface = pygame.display.get_surface()
   path_forward = path[1:] + path[:1]
   for (i,j) in zip(path, path_forward):
-    x1 = int((nodes[i][0] - 10990) / 1500 * surface.get_width())
-    y1 = int((nodes[i][1] - 41750) / 1750 * surface.get_height())
-    x2 = int((nodes[j][0] - 10990) / 1500 * surface.get_width())
-    y2 = int((nodes[j][1] - 41750) / 1750 * surface.get_height())
+    x1 = int((nodes[i][0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_width())
+    y1 = int((nodes[i][1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_height())
+    x2 = int((nodes[j][0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_width())
+    y2 = int((nodes[j][1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_height())
     pygame.draw.line(surface, (100,100,100), (x1, y1), (x2, y2))
 
 

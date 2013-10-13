@@ -6,7 +6,7 @@ class Chromosome:
   @classmethod
   def random_init(cls, graph):
     """Create a Chromosome with a random set of genes."""
-    alleles = [i for i in xrange(1, graph.dimension)]
+    alleles = [i for i in xrange(1, graph.dimension + 1)]
     random.shuffle(alleles)
     return Chromosome(alleles, graph)
 
