@@ -1,9 +1,9 @@
 import random
-from multiprocessing import Pool
 
 from tsp.ga.crossover import CrossoverFactory
 from tsp.ga.chromosome import Chromosome
 from tsp.ga.mutator import MutatorFactory
+from tsp.ga.selection import SelectionFactory
 
 class GA:
   def __init__(self, population, graph, selector, crossover, mutator, **kwargs):
@@ -19,10 +19,10 @@ class GA:
     self.population = self.evaluate()
 
   def step(self):
-    parents = self.population
+    parents = self.selector.select(self.population)
     children = self.perform_crossover(parents)
     self.perform_mutation(children)
-    self.population = self.perform_dismissal(parents, children)
+    self.population = self.perform_dismissal(self.population, children)
     self.population = self.evaluate()
     
 
@@ -64,7 +64,7 @@ class GAFactory:
   @classmethod
   def getGA(cls, args, graph):
     population = 100
-    selector = None
+    selector = SelectionFactory().get_scheme(args.selector)
     crossover = CrossoverFactory().get_scheme(args.crossover)
     mutator = MutatorFactory().get_mutator(args.mutator)
 

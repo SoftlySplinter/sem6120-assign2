@@ -23,7 +23,7 @@ def main():
                       help='The data file to load')
   parser.add_argument('-p', '--preprocess', dest='preprocess', default=True,
                       help='Preprocess the graph')
-  parser.add_argument('--selection', dest='selection', default='default', 
+  parser.add_argument('--selection', dest='selector', default='default', 
                       help='Selection Scheme')
   parser.add_argument('--crossover', dest='crossover', default='default', 
                       help='Crossover Scheme')
