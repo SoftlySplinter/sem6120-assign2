@@ -25,9 +25,11 @@ class CrossoverStrategy(object):
 class CrossoverFactory:
   def __init__(self):
     from tsp.ga.crossover.cycle import CycleCrossover
+    from tsp.ga.crossover.order import Order1Crossover
     self.strategies = {
                         "default": CrossoverStrategy(),
                         "cycle":   CycleCrossover(),
+                        "order1":  Order1Crossover(),
                        }
 
   def get_scheme(self, strategy):
