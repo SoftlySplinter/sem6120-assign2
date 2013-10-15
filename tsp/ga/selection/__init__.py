@@ -2,21 +2,22 @@ __all__ = ['SelectionScheme', 'SelectionFactory']
 
 class SelectionScheme(object):
   """
-  Performs selection based on the best 10% of individuals in the population.
+  Performs no selection at all
   """
 
   def select(self, population):
-    import math
-    return population[:int(math.ceil(len(population) * 0.1))]
+    return population
 
   def __str__(self):
     return self.__doc__
 
+from tsp.ga.selection.tournament import TournamentSelection
 
 class SelectionFactory:
   def __init__(self):
     self.schemes = {
-      'default': SelectionScheme()
+      'default': SelectionScheme(),
+      'tournament': TournamentSelection(),
     }
   def get_scheme(self, scheme):
     if scheme in self.schemes:

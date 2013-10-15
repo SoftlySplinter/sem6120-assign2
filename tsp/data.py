@@ -24,7 +24,10 @@ class DataLoader:
         self.parse(line)
 
     if self.graph.valid():
-      if 'preprocess' in kwargs and kwargs['preprocess']:
+      if 'preprocess' in kwargs and bool(kwargs['preprocess']):
+        print """Proprocessing (there are {} nodes so this will need to
+calculate {} values)""".format(len(self.graph.nodes),
+                                   pow(len(self.graph.nodes), 2)/2)
         self.graph.preprocess()
       return self.graph
     raise ParseException('Invalid Graph')
@@ -67,5 +70,7 @@ class DataLoader:
     self.parsing_nodes = True
 
   def parse_node(self, line):
+    if line.strip() == "EOF":
+      return
     args = line.strip().split(" ")
     self.graph.nodes[int(args[0])] = (float(args[1]), float(args[2]))

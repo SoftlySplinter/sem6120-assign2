@@ -21,7 +21,7 @@ def main():
   parser = ArgumentParser(description="Solving the TSP through GAs")
   parser.add_argument('data_file', metavar='D', nargs=1, 
                       help='The data file to load')
-  parser.add_argument('-p', '--preprocess', dest='preprocess', default=True,
+  parser.add_argument('-p', '--preprocess', dest='preprocess', default=False,
                       help='Preprocess the graph')
   parser.add_argument('--selection', dest='selector', default='default', 
                       help='Selection Scheme')
@@ -51,8 +51,8 @@ def main():
 def draw_map(nodes):
   pygame.init()
   info = pygame.display.Info()
-  screen = pygame.display.set_mode((info.current_w - 100,
-                                    info.current_h - 100))
+  size = min(info.current_w, info.current_h) - 100
+  screen = pygame.display.set_mode((size, size))
   screen.fill((255,255,255))
   map(draw_node, nodes.iteritems())
   pygame.display.flip()
