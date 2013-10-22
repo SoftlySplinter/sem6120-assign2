@@ -17,8 +17,7 @@ class Chromosome:
     assert self.is_valid()
 
   def is_valid(self):
-    for i in xrange(1, len(self.genes)):
-      assert i in self.genes
+    map(lambda x: x in self.genes, xrange(1, len(self.genes)))
     return True
 
   def fitness(self):

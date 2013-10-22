@@ -29,6 +29,12 @@ def main():
                       help='Crossover Scheme')
   parser.add_argument('--mutator', dest='mutator', default='default', 
                       help='Mutation Scheme')
+  parser.add_argument('--population', dest='population', default=100,
+                      help='Population Size')
+  parser.add_argument('--mutation-rate', dest='mutation_rate', default=0.01,
+                      help='Mutation Rate')
+  parser.add_argument('--crossover-rate', dest='crossover_rate', default=0.6,
+                      help='Crossover Rate')
   args = parser.parse_args()
   d = DataLoader()
   
@@ -59,18 +65,18 @@ def draw_map(nodes):
 
 def draw_node((id,node)):
   surface = pygame.display.get_surface()
-  x = int((node[0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_height())
-  y = int((node[1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_width())
+  x = int((node[0] - tsp.min_node[0]) / tsp.diff_node[0] * (surface.get_height() - 10)) + 5
+  y = int((node[1] - tsp.min_node[1]) / tsp.diff_node[1] * (surface.get_width() - 10)) + 5
   pygame.draw.circle(surface, (255, 0, 0), (y, x), 3)
 
 def draw_path(path, nodes, colour):
   surface = pygame.display.get_surface()
   path_forward = path[1:] + path[:1]
   for (i,j) in zip(path, path_forward):
-    x1 = int((nodes[i][0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_height())
-    y1 = int((nodes[i][1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_width())
-    x2 = int((nodes[j][0] - tsp.min_node[0]) / tsp.diff_node[0] * surface.get_height())
-    y2 = int((nodes[j][1] - tsp.min_node[1]) / tsp.diff_node[1] * surface.get_width())
+    x1 = int((nodes[i][0] - tsp.min_node[0]) / tsp.diff_node[0] * (surface.get_height() - 10)) + 5
+    y1 = int((nodes[i][1] - tsp.min_node[1]) / tsp.diff_node[1] * (surface.get_width() - 10)) + 5
+    x2 = int((nodes[j][0] - tsp.min_node[0]) / tsp.diff_node[0] * (surface.get_height() - 10)) + 5
+    y2 = int((nodes[j][1] - tsp.min_node[1]) / tsp.diff_node[1] * (surface.get_width() - 10)) + 5
     pygame.draw.aaline(surface, colour, (y1, x1), (y2, x2))
 
 

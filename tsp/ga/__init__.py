@@ -6,13 +6,14 @@ from tsp.ga.mutator import MutatorFactory
 from tsp.ga.selection import SelectionFactory
 
 class GA:
-  def __init__(self, population, graph, selector, crossover, mutator, **kwargs):
+  def __init__(self, population, graph, selector, crossover, mutator, 
+               crossover_rate, mutation_rate):
     self.selector = selector
     self.crossover = crossover
     self.mutator = mutator
 
-    self.crossover_rate = kwargs['crossover_rate'] if 'crossover_rate' in kwargs else 0.6
-    self.mutation_rate = kwargs['mutation_rate'] if 'mutation_rate' in kwargs else 0.01
+    self.crossover_rate = crossover_rate
+    self.mutation_rate = mutation_rate
 
     self.population = [Chromosome.random_init(graph) 
                        for _ in xrange(population)]
@@ -63,9 +64,12 @@ class GA:
 class GAFactory:
   @classmethod
   def getGA(cls, args, graph):
-    population = 100
+    population = int(args.population)
+    crossover_rate = float(args.crossover_rate)
+    mutation_rate = float(args.mutation_rate)
     selector = SelectionFactory().get_scheme(args.selector)
     crossover = CrossoverFactory().get_scheme(args.crossover)
     mutator = MutatorFactory().get_mutator(args.mutator)
 
-    return GA(population, graph, selector, crossover, mutator)
+    return GA(population, graph, selector, crossover, mutator, crossover_rate,
+              mutation_rate)

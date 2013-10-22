@@ -1,4 +1,5 @@
 import re
+import psutil
 
 from tsp import Graph
 
@@ -24,6 +25,12 @@ class DataLoader:
         self.parse(line)
 
     if self.graph.valid():
+      guestimate_ram = psutil.virtual_memory().total
+      integers_needed = pow(len(self.graph.nodes), 2)
+      if guestimate_ram < integers_needed * 32:
+        print """Probably not enough RAM to store the problem in. You have 10
+seconds to abort before bad things happen"""
+        sleep(10)
       if 'preprocess' in kwargs and bool(kwargs['preprocess']):
         print """Proprocessing (there are {} nodes so this will need to
 calculate {} values)""".format(len(self.graph.nodes),
