@@ -16,7 +16,6 @@ class SwapMutator(DefaultMutator):
 class SwapAdjecentMutator(SwapMutator):
   def mutate(self, chromosome):
     i = random.randint(0, len(chromosome.genes) - 1)
-    choice = [i-1, i+1]
-    choice = filter(lambda x: x >= 0 and x < len(chromosome.genes), choice)
+    choice = filter(lambda x: x >= 0 and x < len(chromosome.genes), [i-1, i+1])
     j = random.choice(choice)
     self.swap(chromosome, i, j)

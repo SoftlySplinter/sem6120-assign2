@@ -10,12 +10,6 @@ class CycleCrossover(CrossoverStrategy):
   - The above steps are repeated until `i` is the index it started at.
   """
 
-  def crossover(self, p1, p2):
-    (c1, c2) = super(CycleCrossover, self).crossover(p1, p2)
-    assert c1 != p1
-    assert c2 != p2
-    return (c1, c2)
-
   def do_crossover(self, p1, p2):
     """
     Performs crossover in a cyclic fashion:

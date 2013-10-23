@@ -2,10 +2,11 @@
 __all__ = ['DefaultMutator', 'MutatorFactory']
 
 class DefaultMutator(object):
+  """
+  Do not perform any form of mutation.
+  """
+  import random
   def mutate(self, chromosome):
-    """
-    Do not perform any form of mutation.
-    """
     pass
 
 from tsp.ga.mutator.swap import SwapMutator, SwapAdjecentMutator

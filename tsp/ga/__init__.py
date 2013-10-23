@@ -1,28 +1,29 @@
 import random
-from multiprocessing import Pool
 
 from tsp.ga.crossover import CrossoverFactory
 from tsp.ga.chromosome import Chromosome
 from tsp.ga.mutator import MutatorFactory
+from tsp.ga.selection import SelectionFactory
 
 class GA:
-  def __init__(self, population, graph, selector, crossover, mutator, **kwargs):
+  def __init__(self, population, graph, selector, crossover, mutator, 
+               crossover_rate, mutation_rate):
     self.selector = selector
     self.crossover = crossover
     self.mutator = mutator
 
-    self.crossover_rate = kwargs['crossover_rate'] if 'crossover_rate' in kwargs else 0.6
-    self.mutation_rate = kwargs['mutation_rate'] if 'mutation_rate' in kwargs else 0.01
+    self.crossover_rate = crossover_rate
+    self.mutation_rate = mutation_rate
 
     self.population = [Chromosome.random_init(graph) 
                        for _ in xrange(population)]
     self.population = self.evaluate()
 
   def step(self):
-    parents = self.population
+    parents = self.selector.select(self.population)
     children = self.perform_crossover(parents)
     self.perform_mutation(children)
-    self.population = self.perform_dismissal(parents, children)
+    self.population = self.perform_dismissal(self.population, children)
     self.population = self.evaluate()
     
 
@@ -47,10 +48,8 @@ class GA:
     return temp
 
   def evaluate(self):
-    return sorted(map(self.evaluate_single, self.population), key=self.get_fitness)
-
-  def get_fitness(self, chromosome):
-    return chromosome.score
+    return sorted(map(self.evaluate_single, self.population), 
+                  key = lambda x: x.score)
 
   def evaluate_single(self, chromosome):
     chromosome.score = chromosome.fitness()
@@ -63,9 +62,12 @@ class GA:
 class GAFactory:
   @classmethod
   def getGA(cls, args, graph):
-    population = 100
-    selector = None
+    population = int(args.population)
+    crossover_rate = float(args.crossover_rate)
+    mutation_rate = float(args.mutation_rate)
+    selector = SelectionFactory().get_scheme(args.selector)
     crossover = CrossoverFactory().get_scheme(args.crossover)
     mutator = MutatorFactory().get_mutator(args.mutator)
 
-    return GA(population, graph, selector, crossover, mutator)
+    return GA(population, graph, selector, crossover, mutator, crossover_rate,
+              mutation_rate)
