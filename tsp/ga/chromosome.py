@@ -17,13 +17,15 @@ class Chromosome:
     assert self.is_valid()
 
   def is_valid(self):
-    map(lambda x: x in self.genes, xrange(1, len(self.genes)))
-    return True
+    return False not in map(lambda x: x in self.genes, 
+                            xrange(1, len(self.genes)))
 
   def fitness(self):
     """Evaluate the fitness of a Chromosome."""
+    if self.score:
+      return self.score
     return sum([self.graph.distance(i,j) 
-                for (i,j) in zip(self.genes, self.genes[1:] + self.genes[:1])])
+           for (i,j) in zip(self.genes, self.genes[1:] + self.genes[:1])])
 
   def __str__(self):
     return "{}".format(self.genes)

@@ -48,10 +48,8 @@ class GA:
     return temp
 
   def evaluate(self):
-    return sorted(map(self.evaluate_single, self.population), key=self.get_fitness)
-
-  def get_fitness(self, chromosome):
-    return chromosome.score
+    return sorted(map(self.evaluate_single, self.population), 
+                  key = lambda x: x.score)
 
   def evaluate_single(self, chromosome):
     chromosome.score = chromosome.fitness()
