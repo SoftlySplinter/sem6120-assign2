@@ -56,8 +56,13 @@ class GA:
     return chromosome
 
   def __str__(self):
-    return ("Selection Scheme: {}\nCrossover Scheme: {}\nMutation Scheme: {}"
-            .format(self.selector, self.crossover, self.mutator))
+    return ("GA with P={} C={} M={}, {}, {} and {}"
+            .format(len(self.population), 
+                    self.crossover_rate,
+                    self.mutation_rate, 
+                    self.selector, 
+                    self.crossover, 
+                    self.mutator))
 
 class GAFactory:
   @classmethod

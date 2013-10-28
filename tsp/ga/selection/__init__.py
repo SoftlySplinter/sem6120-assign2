@@ -9,7 +9,7 @@ class SelectionScheme(object):
     return population
 
   def __str__(self):
-    return self.__doc__
+    return self.__class__.__name__
 
 from tsp.ga.selection.tournament import TournamentSelection
 

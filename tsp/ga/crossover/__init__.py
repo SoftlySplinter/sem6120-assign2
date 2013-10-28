@@ -20,7 +20,7 @@ class CrossoverStrategy(object):
     return [gene for gene in p1]
 
   def __str__(self):
-    return self.__doc__.strip()
+    return self.__class__.__name__
 
 class CrossoverFactory:
   def __init__(self):

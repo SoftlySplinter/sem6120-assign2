@@ -2,7 +2,7 @@ import random
 
 from tsp.ga.selection import SelectionScheme
 
-class TournamentSelection(object):
+class TournamentSelection(SelectionScheme):
   """
   Runs tournaments between indivduals until a sufficient number are obtained.
   """

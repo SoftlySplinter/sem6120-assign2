@@ -9,6 +9,9 @@ class DefaultMutator(object):
   def mutate(self, chromosome):
     pass
 
+  def __str__(self):
+    return self.__class__.__name__
+
 from tsp.ga.mutator.swap import SwapMutator, SwapAdjecentMutator
 class MutatorFactory:
   def __init__(self):

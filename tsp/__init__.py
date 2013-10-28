@@ -47,12 +47,29 @@ def main():
 
   tsp.diff_node = (max_node[0] - min_node[0], max_node[1] - min_node[1])
 
-  draw_map(g.nodes)
+#  draw_map(g.nodes)
   ga = GAFactory.getGA(args, g)
   f = ga.population[0]
-  while True:
+  import matplotlib.pyplot as plot
+  import numpy as np
+  generations = 0
+  average = []
+  best = []
+  while generations < 2500:
     ga.step()
-    update_map(g.nodes, ga.population)
+    best.append(ga.population[0].score)
+    average.append(np.mean([x.score for x in ga.population]))
+    generations += 1
+#    update_map(g.nodes, ga.population)
+  plot.plot(best, "b-", label="Best Fitness")
+  plot.plot(average, "r-", label="Average Fitness")
+  plot.legend()
+  plot.title("{}; {} nodes.".format(str(ga), g.dimension))
+  plot.xlabel("Generations")
+  plot.ylim(ymin=0)
+  plot.ylabel("Route Length (fitness)")
+  plot.show()
+    
     
 def draw_map(nodes):
   pygame.init()
