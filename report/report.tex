@@ -60,7 +60,22 @@
 \newpage
 
 \section{Introduction}
-% TODO
+This report investigates the use of Genetic Algorithms to solve the Travelling
+Salesman Problem, introducing both topics as well as previous research and 
+techniques.
+
+Following this the design for the solution implemented will be detailed,
+focusing from high level system design to annotated code section to explain the
+choice behind the implementation.
+
+This implementation is then used to produced the results in
+section~\ref{sec:results} which give an insight into the affects of different
+crossover and mutation schemes on the performance of the genetic algorithm,
+specifically looking at %TODO actually get some results to finish this.
+
+Finally the author will draw conclusions from these results and %TODO I don't
+% know what I'm going to do at this point.
+
 
 \subsection{Genetic Algorithms}
 Genetic algorithms are a biologically-inspired approach to heuristic search 
@@ -92,8 +107,9 @@ chromosomes has to be ordered (i.e.\ each city must appear once and only once)
 and additional methods of crossover and mutation have had to be designed for
 these ordered chromosomes.
 
-
+\newpage
 \section{Design}
+% TODO Introduction
 
 \subsection{System Design}
 % TODO
@@ -190,8 +206,9 @@ def eval_single(chromosome):
   chromosome.score = chromosome.fitness()
   return chromosome
 \end{lstlisting}
-
+ 
 \section{Results}
+\label{sec:results}
 
 \subsection{Best and Mean Population Fitness against Number of Generations}
 %TODO
