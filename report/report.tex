@@ -59,9 +59,54 @@
 \tableofcontents
 \newpage
 
+\section{Introduction}
+% TODO
+
+\subsection{Genetic Algorithms}
+Genetic algorithms are a biologically-inspired approach to heuristic search 
+that mimic natural selection. Unlike many other evolutionary strategies and
+evolutionary programming, they are not designed to solve a specific problem,
+but are designed to solve the problem of optimisation which is made difficult
+by substantial complexity and uncertainty\cite{Holland1992Adaptation}.
+
+\subsection{Travelling Salesman Problem}
+%TODO this section need citations.
+The Travelling Salesman Problem is a well-known NP-hard optimisation problem
+which asks the question: \textit{``Given a number of cities and the distances between 
+these cities, find the shortest touch which visits each city exactly once and 
+returns to the first city.''}
+
+Assuming each city is connected to every other city, this problem reaches a
+complexity of $O(n!)$ and is very resource intensive to brute force a problem
+with any decent number of nodes quickly become too larger problem to solve
+within a reasonable amount of time.
+
+There are many heuristic algorithms which have been applied successfully to the
+Travelling Salesman Problem, including both Evolutionary and Genetic 
+Algorithms.
+
+Though the nature of Genetic Algorithms are suited to the optimisation of a
+Travelling Salesman Problem, normal methods of crossover and mutation cannot,
+generally, be applied directly to the problem. The representation of 
+chromosomes has to be ordered (i.e.\ each city must appear once and only once)
+and additional methods of crossover and mutation have had to be designed for
+these ordered chromosomes.
+
+
 \section{Design}
 
-\subsection{UML Class Diagram}
+\subsection{System Design}
+% TODO
+% Overall idea: modularise system
+%  - Define high-level classes for selection, crossover & mutation
+%  - Use factories to generate specific classes based of input
+%  - Discuss the structure of graphs and ways to cut down the amount of memory
+%    used.
+
+
+
+
+\subsubsection{UML Class Diagram}
 
 Figure~\ref{fig:uml} shows the initial UML Class diagram for this project.
 There are some elements which break from typical object-orientated design,
@@ -90,10 +135,10 @@ to implement a \texttt{do\_crossover} method unless the scheme required a
 different behaviour of child generation.
 
 
-\subsection{Representation of Graphs}
+\subsubsection{Representation of Graphs}
 
 The actual of representation of a graph is a map of the node identifier to the
-$x$ and $y$ co-ordinates of that node (as a turple). This allows easy look up 
+$x$ and $y$ co-ordinates of that node (as a tuple). This allows easy look up 
 of nodes within the map to get the position of the node. This was chosen 
 because of the representation of the problem in chromosomes - each gene 
 represents a node in the graph.
@@ -146,5 +191,22 @@ def eval_single(chromosome):
   return chromosome
 \end{lstlisting}
 
+\section{Results}
+
+\subsection{Best and Mean Population Fitness against Number of Generations}
+%TODO
+
+\subsection{Best and Mean Population Fitness against Runtime}
+%TODO
+
+\subsection{Convergence}
+%TODO
+
+\section{Conclusions}
+%TODO
+
+
+\bibliographystyle{plain}
+\bibliography{citations}
 
 \end{document}
