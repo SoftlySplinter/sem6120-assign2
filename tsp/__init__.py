@@ -4,6 +4,7 @@ __all__ = ['Graph', 'main']
 
 import time
 import pygame
+from progressbar import ProgressBar
 from argparse import ArgumentParser
 import matplotlib.pyplot as plot
 import numpy as np
@@ -56,14 +57,15 @@ def main():
   run(int(args.generations), int(args.average), args, g)
 
 def run(total_generations, average_over, args, g):
+  print "Starting experiments. Averaging over {} runs.".format(average_over)
   best = []
   average = []
 
-  for i in xrange(average_over):
+  progress = ProgressBar()
+  for i in progress(range(average_over)):
     (run_best, run_avg) = do_run(total_generations, args, g)
     best.append(run_best)
     average.append(run_avg)
-    print "{}/{} complete".format(i + 1, average_over)
 
   print "Best result: {}".format(min([min(i) for i in best]))
 
