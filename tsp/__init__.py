@@ -12,7 +12,9 @@ import numpy as np
 from tsp.data import DataLoader
 from tsp.ga import GAFactory
 
-__all__ = ['min_node','max_node','main']
+
+screen = None
+__all__ = ['min_node','max_node','main', 'screen']
 
 import tsp
 
@@ -53,7 +55,6 @@ def main():
 
   tsp.diff_node = (max_node[0] - min_node[0], max_node[1] - min_node[1])
 
-#  draw_map(g.nodes) 
   run(int(args.generations), int(args.average), args, g)
 
 def run(total_generations, average_over, args, g):
@@ -62,6 +63,7 @@ def run(total_generations, average_over, args, g):
   average = []
 
   progress = ProgressBar()
+  draw_map(g.nodes) 
   for i in progress(range(average_over)):
     (run_best, run_avg) = do_run(total_generations, args, g)
     best.append(run_best)
@@ -75,7 +77,8 @@ def run(total_generations, average_over, args, g):
   ga = GAFactory.getGA(args, g)
   plot.title("{}; {} nodes.".format(str(ga), g.dimension))
   plot.xlabel("Generations")
-#  plot.ylim(ymin=0)
+  # TODO make this a bit more solid.
+  plot.ylim(ymin=27603, ymax=120000)
   plot.ylabel("Route Length (fitness)")
   plot.show()
 
@@ -88,26 +91,26 @@ def do_run(total_generations, args, g):
     ga.step()
     best.append(ga.population[0].score)
     average.append(np.mean([x.score for x in ga.population]))
-#    update_map(g.nodes, ga.population)
+    update_map(g.nodes, ga.population)
   return (best, average)
-    
+
 def draw_map(nodes):
   pygame.init()
   info = pygame.display.Info()
   size = min(info.current_w, info.current_h) - 100
-  screen = pygame.display.set_mode((size, size))
-  screen.fill((255,255,255))
+  tsp.screen = pygame.display.set_mode((size, size))
+  tsp.screen.fill((255,255,255))
   map(draw_node, nodes.iteritems())
   pygame.display.flip()
 
 def draw_node((id,node)):
-  surface = pygame.display.get_surface()
+  surface = tsp.screen
   x = int((node[0] - tsp.min_node[0]) / tsp.diff_node[0] * (surface.get_height() - 10)) + 5
   y = int((node[1] - tsp.min_node[1]) / tsp.diff_node[1] * (surface.get_width() - 10)) + 5
   pygame.draw.circle(surface, (255, 0, 0), (y, x), 3)
 
 def draw_path(path, nodes, colour):
-  surface = pygame.display.get_surface()
+  surface = tsp.screen
   path_forward = path[1:] + path[:1]
   for (i,j) in zip(path, path_forward):
     x1 = int((nodes[i][0] - tsp.min_node[0]) / tsp.diff_node[0] * (surface.get_height() - 10)) + 5
@@ -118,7 +121,7 @@ def draw_path(path, nodes, colour):
 
 
 def update_map(nodes, best):
-  screen = pygame.display.get_surface()
+  screen = tsp.screen
   screen.fill((255,255,255))
   map(draw_node, nodes.iteritems())
   temp = 0
@@ -130,6 +133,7 @@ def update_map(nodes, best):
   t = text.render("Best distance: {}".format(best[0].score), True, (0,0,0))
   screen.blit(t, (0,0))
   pygame.display.flip()
+  
 
 if __name__ == "__main__":
   main()
