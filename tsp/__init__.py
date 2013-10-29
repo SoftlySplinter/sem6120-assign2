@@ -5,6 +5,8 @@ __all__ = ['Graph', 'main']
 import time
 import pygame
 from argparse import ArgumentParser
+import matplotlib.pyplot as plot
+import numpy as np
 
 from tsp.data import DataLoader
 from tsp.ga import GAFactory
@@ -35,6 +37,9 @@ def main():
                       help='Mutation Rate')
   parser.add_argument('--crossover-rate', dest='crossover_rate', default=0.6,
                       help='Crossover Rate')
+  parser.add_argument("--generations", dest="generations", 
+                      help="Number of generations to run for.")
+  parser.add_argument("--average", dest="average", help="Average over X runs")
   args = parser.parse_args()
   d = DataLoader()
   
@@ -47,29 +52,42 @@ def main():
 
   tsp.diff_node = (max_node[0] - min_node[0], max_node[1] - min_node[1])
 
-#  draw_map(g.nodes)
+#  draw_map(g.nodes) 
+  run(int(args.generations), int(args.average), args, g)
+
+def run(total_generations, average_over, args, g):
+  best = []
+  average = []
+
+  for i in xrange(average_over):
+    (run_best, run_avg) = do_run(total_generations, args, g)
+    best.append(run_best)
+    average.append(run_avg)
+    print "{}/{} complete".format(i + 1, average_over)
+
+  print "Best result: {}".format(min([min(i) for i in best]))
+
+  plot.plot(np.mean(best, axis=0), "b-", label="Best Fitness")
+  plot.plot(np.mean(average, axis=0), "r-", label="Average Fitness")
+  plot.legend()
+  ga = GAFactory.getGA(args, g)
+  plot.title("{}; {} nodes.".format(str(ga), g.dimension))
+  plot.xlabel("Generations")
+#  plot.ylim(ymin=0)
+  plot.ylabel("Route Length (fitness)")
+  plot.show()
+
+def do_run(total_generations, args, g):
   ga = GAFactory.getGA(args, g)
   f = ga.population[0]
-  import matplotlib.pyplot as plot
-  import numpy as np
-  generations = 0
   average = []
   best = []
-  while generations < 2500:
+  for i in xrange(total_generations):
     ga.step()
     best.append(ga.population[0].score)
     average.append(np.mean([x.score for x in ga.population]))
-    generations += 1
 #    update_map(g.nodes, ga.population)
-  plot.plot(best, "b-", label="Best Fitness")
-  plot.plot(average, "r-", label="Average Fitness")
-  plot.legend()
-  plot.title("{}; {} nodes.".format(str(ga), g.dimension))
-  plot.xlabel("Generations")
-  plot.ylim(ymin=0)
-  plot.ylabel("Route Length (fitness)")
-  plot.show()
-    
+  return (best, average)
     
 def draw_map(nodes):
   pygame.init()
