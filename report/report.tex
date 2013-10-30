@@ -114,13 +114,46 @@ these ordered chromosomes.
 \subsection{System Design}
 % TODO
 % Overall idea: modularise system
+As with most coding problems with multiple options, a modular approach is
+necessary to keep code quality high. This is typically done by defining
+high-level interfaces for the changeable elements. In this case the obvious
+three interfaces are:
+
 %  - Define high-level classes for selection, crossover & mutation
+\begin{enumerate}
+\item Selection Scheme
+\item Crossover Scheme
+\item Mutation Scheme
+\end{enumerate}
+
+From these high-level classes, concrete sub-classes can be written to perform
+the actual logic. An example of this would be a specific class for Order-1
+based crossover.
+
 %  - Use factories to generate specific classes based of input
+This leaves the problem of how to accesses these classes based on an input
+string; the easiest method for this is to use factories to access these 
+classes, cutting down the number of specific imports required and centralising
+the logic for creating them.
+
 %  - Discuss the structure of graphs and ways to cut down the amount of memory
 %    used.
 
 
+\subsubsection{Language Choice}
+Python was the choice of language, it is a dynamically typed language which 
+provides several programming paradigms to work with, including procedural,
+object-orientated and functional paradigms.
 
+It is a language the author is very familiar with and has the advantage of
+having many open source libraries to perform different scientific functions;
+some of these libraries have been used in the course of this project, including
+the popular \texttt{numpy} library for number processing and \texttt{matplotlib}
+to produce graphs.
+
+The strange choice of \texttt{pygame} was made for the choice of displaying the
+GUI, but this games library gives simple yet powerful access to OpenGL and also
+manages platform dependencies.
 
 \subsubsection{UML Class Diagram}
 
@@ -199,12 +232,8 @@ population, returning a list sorted from the best to the worst:
                    caption=Using function elements to improve sustinctness and
                            readability]
 def eval(population):
-  return sorted(map(eval_single, population), 
-                key = lambda chromosome: chromosome.score)
-
-def eval_single(chromosome):
-  chromosome.score = chromosome.fitness()
-  return chromosome
+  return sorted(population, 
+                key = lambda chromosome: chromosome.fitness())
 \end{lstlisting}
  
 \section{Results}
