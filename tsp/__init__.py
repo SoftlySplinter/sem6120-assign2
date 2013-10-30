@@ -65,7 +65,7 @@ def run(total_generations, average_over, args, g, gui):
   # TODO make this a bit more solid.
   plot.ylim(ymin=9352, ymax=100000)
   plot.ylabel("Route Length (fitness)")
-  plot.show()
+#  plot.show()
   plot.savefig('report/img/results/{}n{}{}.png'.format(ga.file_path(), g.dimension, ga.file_name()), papertype='a4')
 
 def do_run(total_generations, args, g, gui):
