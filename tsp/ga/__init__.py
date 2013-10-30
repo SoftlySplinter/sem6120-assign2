@@ -56,8 +56,17 @@ class GA:
     chromosome.score = chromosome.fitness()
     return chromosome
 
+  def file_path(self):
+    return "{}/{}/".format(str(self.crossover).lower(),
+                           str(self.mutator).lower())
+
+  def file_name(self):
+    return "p{}c{}m{}".format(len(self.population),
+                              str(self.crossover_rate).replace(".", ""),
+                              str(self.mutation_rate).replace(".", ""))
+
   def __str__(self):
-    return ("GA with P={} C={} M={}, {}, {} and {}"
+    return ("GA with P={} C={} M={}\n{}, {} and {}"
             .format(len(self.population), 
                     self.crossover_rate,
                     self.mutation_rate, 

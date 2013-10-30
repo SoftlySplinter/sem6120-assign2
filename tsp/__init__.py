@@ -78,9 +78,9 @@ def run(total_generations, average_over, args, g):
   plot.title("{}; {} nodes.".format(str(ga), g.dimension))
   plot.xlabel("Generations")
   # TODO make this a bit more solid.
-  plot.ylim(ymin=27603, ymax=120000)
+  plot.ylim(ymin=6656, ymax=30000)
   plot.ylabel("Route Length (fitness)")
-  plot.show()
+  plot.savefig('report/img/results/{}n{}{}.png'.format(ga.file_path(), g.dimension, ga.file_name()), papertype='a4')
 
 def do_run(total_generations, args, g):
   ga = GAFactory.getGA(args, g)
