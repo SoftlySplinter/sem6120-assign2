@@ -49,12 +49,8 @@ class GA:
     return temp
 
   def evaluate(self):
-    return sorted(map(self.evaluate_single, self.population), 
-                  key = lambda x: x.score)
-
-  def evaluate_single(self, chromosome):
-    chromosome.score = chromosome.fitness()
-    return chromosome
+    return sorted(self.population, 
+                  key = lambda x: x.fitness())
 
   def file_path(self):
     return "{}/{}/".format(str(self.crossover).lower(),

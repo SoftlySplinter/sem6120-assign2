@@ -22,10 +22,11 @@ class Chromosome:
 
   def fitness(self):
     """Evaluate the fitness of a Chromosome."""
-    if self.score:
-      return self.score
-    return sum([self.graph.distance(i,j) 
-           for (i,j) in zip(self.genes, self.genes[1:] + self.genes[:1])])
+    if not self.score:
+      self.score = sum([self.graph.distance(i,j) 
+                       for (i,j) in zip(self.genes, 
+                                        self.genes[1:] + self.genes[:1])])
+    return self.score
 
   def __str__(self):
     return "{}".format(self.genes)
