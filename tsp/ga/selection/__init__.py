@@ -12,11 +12,13 @@ class SelectionScheme(object):
     return self.__class__.__name__
 
 from tsp.ga.selection.tournament import TournamentSelection
+from tsp.ga.selection.roulette import RouletteWheelSelection
 
 class SelectionFactory:
   def __init__(self):
     self.schemes = {
       'default': SelectionScheme(),
+      'roulette': RouletteWheelSelection(),
       'tournament': TournamentSelection(),
     }
   def get_scheme(self, scheme):
