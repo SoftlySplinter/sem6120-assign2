@@ -1,6 +1,8 @@
 SEM/CSM6120 Assignment: October 2013
 ====================================
 
+For installation and run instructions, see INSTALLING.rst
+
 Solving Travelling Salesman Problems with Genetic Algorithms
 ------------------------------------------------------------
 
