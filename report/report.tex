@@ -148,8 +148,8 @@ object-orientated and functional paradigms.
 It is a language the author is very familiar with and has the advantage of
 having many open source libraries to perform different scientific functions;
 some of these libraries have been used in the course of this project, including
-the popular \texttt{numpy} library for number processing and \texttt{matplotlib}
-to produce graphs.
+the popular \texttt{numpy} library for number processing and 
+\texttt{matplotlib} to produce graphs.
 
 The strange choice of \texttt{pygame} was made for the choice of displaying the
 GUI, but this games library gives simple yet powerful access to OpenGL and also
@@ -235,6 +235,34 @@ def eval(population):
   return sorted(population, 
                 key = lambda chromosome: chromosome.fitness())
 \end{lstlisting}
+
+
+\subsection{Crossover Strategies}
+
+Three main types of crossover strategies were implemented for this research:
+
+\begin{enumerate}
+\item Cycle Crossover,
+\item Order-1 Crossover,
+\item M-Crossover Operator.%TODO\cite
+\end{enumerate}
+
+All three are designed to work with ordered chromosomes, meaning they can be
+applied directly to the Travelling Salesman Problem without any modification.
+%TODO for comparison a non-ordered strategy was implemented and modified.
+
+\subsubsection{Cycle Crossover}
+
+Cycle crossover is one of the simplest order-based crossover operators. Unlike
+many other forms of order-based operators it make no effort to preserve parts 
+of the parent chromosomes.
+
+To produce a child, $c$, from parents $p_1$ and $p_2$ a randomly selected point
+$i$ is chosen. The gene at $i$ in $p_1$ ($r = p_1(i)$) is removed and replaced 
+with $p_1(i) = p_2(i)$. The position of the removed allele $r$ is found in 
+$p_2$ such that $i = index(r, p_2)$. This process is repeated until a cycle
+occurs (i.e. the removed allele $r$ is the same as the initially removed 
+allele.
  
 \section{Results}
 \label{sec:results}
