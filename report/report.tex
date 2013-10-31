@@ -8,6 +8,9 @@
 \usepackage[section]{placeins}
 \usepackage{paralist}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
@@ -325,14 +328,140 @@ forward as the offspring of these parents.
 \section{Results}
 \label{sec:results}
 
-\subsection{Best and Mean Population Fitness against Number of Generations}
-%TODO
+\subsection{Impact of Crossover Strategies}
+The crossover strategy is one of the biggest influences on the performance of
+genetic algorithm, the first set of experiments should focus on the differences
+between them.
 
-\subsection{Best and Mean Population Fitness against Runtime}
-%TODO
+All results are run over 500 generations and averaged over 100 experimental 
+test runs.
 
-\subsection{Convergence}
-%TODO
+Figure~\ref{fig:crossover-results} shows the experimental results for all three
+of the crossover operators.
+
+Cycle crossover consistently performs worse than the other two, likely because
+it doesn't preserve good parts of tours. It also has very little variation
+between individuals of the population as the average fitness is very close to
+the best fitness.
+
+It should be noted from the visualisation of the GA that cycle crossover tends
+quickly towards a local minima, but has difficulty finding lower minima. It is
+likely that with a higher mutation rate cycle crossover would perform better as
+more varied possibilities would be considered.
+
+The m-crossover operator performs fairly well but, as with cycle crossover,
+converges quickly which slows the rate of performance after a small number of
+generations. This is fairly intuitive as it is constantly selecting the best
+possible offspring from the parents.
+
+It seems that the m-crossover operator is good for getting a quick estimate of
+the problem in a low number of generations. But for finding a solution as close
+to the optimal as possible it would seem that it isn't the best crossover
+operator. %TODO how does this compare to the authors claims.
+
+The other issue with the m-crossover operator is that it consumes a lot more
+resources and time than the other two, as it has to generate extra children,
+evaluate them and then only choose two of them.
+
+By far the best operator for reaching a solution close to the optimal is the
+order crossover operator. It manages to keep plenty of variety in the 
+population whilst still managing to get the best fitness very close to the
+global minima.
+
+All three operators would be trivial to make parallel (though due to time
+constraints the author did not do so) and so could be made more efficient in
+term of runtime.
+
+Of the three it feels the order crossover operator is the most useful for
+general application, whilst the m-crossover operator would suit a problem which
+would a good solution quickly. The cycle crossover is very simple, but should
+have a performance similar to the order crossover operator.
+
+
+\begin{figure}[h]
+\centering
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/cyclecrossover/swapmutator/n38p100c07m001}
+\caption{Cycle Crossover}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c07m001}
+\caption{Order Crossover Operator}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/mcrossoveroperator/swapmutator/n38p100c07m001}
+\caption{M-Crossover Operator}
+\end{subfigure}
+
+\caption{Results on different crossover operators on a data set with 38 nodes.
+         All used a population of 100, crossover rate of 0.7, mutation rate of 
+         0.01 and the swap mutator}
+\label{fig:crossover-results}
+\end{figure}
+
+
+
+\subsection{Impact of Crossover Rate}
+The next step was to investigate the impact of crossover rate on the 
+performance of a genetic algorithm.
+
+All results are run over 500 generations and averaged over 100 experimental 
+test runs using the order crossover operator which was the best of the three
+crossover operators chosen.
+
+Figure~\ref{fig:crossover-rate-results} shows the experimental results for with
+three different crossover rates: 0.1, a very low crossover rate; 0.7, a 
+commonly used crossover rate; and 0.9, a very high crossover rate.
+
+It should be noted that this implementation is such that crossover rate defines
+not only the chances of crossover being performed, but also the ratio of the
+population which is made up of newly generated offspring. For example, if the
+crossover rate is $0.7$ then the offspring will make up $70\%$ of the new
+population and the rest will be the best $30\%$ of the old population.
+
+The results show slightly interesting results. The results from the crossover
+rate of 0.1 is intuitive, a low crossover rate is expected to elongate the
+number of generations it takes to optimise a solution. It also has a profound
+affect on the convergence of the population in that it converges quickly, which
+appears to be uncommon for the order crossover operator.
+
+Where the results get interesting is that the higher crossover rate of 0.9
+reaches a better best solution than the standard crossover rate of 0.7. This 
+may be a result of the implementation of crossover rate, or because it works
+well with the order crossover operator. However, as the other crossover
+operators perform similarly, one could say that it is because of the
+implementation of the genetic algorithm.
+
+The other possibility is that a high crossover rate is good for the travelling
+salesman problem, however most literature in the area would suggest otherwise.
+
+
+
+\begin{figure}[h]
+\centering
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c01m001}
+\caption{$c = 0.1$}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c05m001}
+\caption{$c = 0.7$}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c09m001}
+\caption{$c = 0.9$}
+\end{subfigure}
+\caption{Results on different crossover rate ($c$) on a data set with 38 nodes.
+         All used a population of 100, mutation rate of 0.01 with the order
+         crossover operator and the swap mutator}
+\label{fig:crossover-rate-results}
+\end{figure}
 
 \section{Conclusions}
 %TODO
