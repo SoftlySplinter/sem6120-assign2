@@ -74,10 +74,7 @@ choice behind the implementation.
 This implementation is then used to produced the results in
 section~\ref{sec:results} which give an insight into the affects of different
 crossover and mutation schemes on the performance of the genetic algorithm,
-specifically looking at %TODO actually get some results to finish this.
-
-Finally the author will draw conclusions from these results and %TODO I don't
-% know what I'm going to do at this point.
+specifically looking at crossover operators, crossover rate and mutation rate.
 
 
 \subsection{Genetic Algorithms}
@@ -314,7 +311,7 @@ segments of $p_2$ and vice versa. The new, elongated chromosome is then
 processed such that any allele in the added segment is removed from all other
 segments to produce the child at that point.
 
-The fitness of these children is then evaulated and the best two are carried 
+The fitness of these children is then evaluated and the best two are carried 
 forward as the offspring of these parents.
 
 \begin{figure}[h]
@@ -324,9 +321,47 @@ forward as the offspring of these parents.
 \label{fig:m-crossover-operator}
 \end{figure}
 
+
+\subsection{Mutation Operators}
+
+Two mutation operators were implemented for this problem. Again, as with
+crossover, normal mutation operators cannot be directly applied to a genetic
+algorithm with ordered chromosomes.
+
+One fairly standard mutation operators for ordered chromosomes is the swapping
+of genes. To do this, two genes are selected at random and are swapped, ensuring
+that the chromosome is always still valid.
+
+This mutation operator does have the problem that it can significantly change
+tours and though this encourages variety, it may introduce too much.
+
+To help reduce this, a second mutation operator was designed so that only
+adjacent genes are swapped. This helps to preserve most of the tour whilst
+changing small parts of it.
  
+\newpage
 \section{Results}
 \label{sec:results}
+
+To gain some insight from the implementation the impacts of several aspects of
+the GA were investigated: the crossover strategy, the crossover rate, the
+mutation rate and the mutation scheme.
+
+Figure~\ref{fig:ga-running} shows an example of the genetic algorithm in
+progress.
+
+\begin{figure}[h]
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{img/ga-initial}
+\caption{At early generation.}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{img/ga-in-progress}
+\caption{At a late generation.}
+\end{subfigure}
+\caption{The Genetic Algorithm at different points in the runtime.}
+\label{fig:ga-running}
+\end{figure}
 
 \subsection{Impact of Crossover Strategies}
 The crossover strategy is one of the biggest influences on the performance of
@@ -403,7 +438,6 @@ have a performance similar to the order crossover operator.
 \end{figure}
 
 
-
 \subsection{Impact of Crossover Rate}
 The next step was to investigate the impact of crossover rate on the 
 performance of a genetic algorithm.
@@ -438,8 +472,6 @@ implementation of the genetic algorithm.
 The other possibility is that a high crossover rate is good for the travelling
 salesman problem, however most literature in the area would suggest otherwise.
 
-
-
 \begin{figure}[h]
 \centering
 
@@ -462,6 +494,50 @@ salesman problem, however most literature in the area would suggest otherwise.
          crossover operator and the swap mutator}
 \label{fig:crossover-rate-results}
 \end{figure}
+
+
+\subsection{Impact of Mutation Rate}
+
+All results are run over 500 generations and averaged over 100 experimental 
+test runs using the order crossover operator and a crossover rate of 0.7.
+
+Figure~\ref{fig:mutation-rate-results} show the experimental results for three
+mutation results: 0.01, a standard mutation rate for small populations; 0.25 a
+medium mutation rate; and 0.5, a relatively high mutation rate.
+
+Interestingly the change of mutation rate have very little affect, other than to
+increase the variance of the population. For the higher mutation rate it does
+the speed of optimisation as well as increasing the variance. However, it is
+interesting that the medium mutation rate of 0.25 produces a better result than
+the standard mutation rate of 0.01. However as the population size is 100, it is
+on the cusp of needing a standard mutation rate of 0.1.
+
+\begin{figure}[h]
+\centering
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c07m001}
+\caption{$m = 0.01$}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c07m025}
+\caption{$m = 0.25$}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c07m05}
+\caption{$m = 0.5$}
+\end{subfigure}
+\caption{Results on different mutation rate ($m$) on a data set with 38 nodes.
+         All used a population of 100, crossover rate of 0.7 with the order
+         crossover operator and the swap mutator}
+\label{fig:mutation-rate-results}
+\end{figure}
+
+
+\subsection{Impact on Mutation Scheme}
+
 
 \section{Conclusions}
 %TODO
