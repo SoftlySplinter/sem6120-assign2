@@ -338,6 +338,15 @@ tours and though this encourages variety, it may introduce too much.
 To help reduce this, a second mutation operator was designed so that only
 adjacent genes are swapped. This helps to preserve most of the tour whilst
 changing small parts of it.
+
+
+\subsection{Parallelisation}
+
+Although genetic algorithms benefit greatly from a multi-threaded approach,
+there was not enough time to make the code parallel. The attempts made to do so
+led 
+
+
  
 \newpage
 \section{Results}
@@ -536,8 +545,93 @@ on the cusp of needing a standard mutation rate of 0.1.
 \end{figure}
 
 
-\subsection{Impact on Mutation Scheme}
+\subsection{Impact on Mutation Operator}
 
+All results are run over 500 generations and averaged over 100 experimental 
+test runs using the order crossover operator and a crossover rate of 0.7.
+
+Figure~\ref{fig:mutation-results} show the experimental results for the swap
+mutator operator and the swap adjacent operator.
+
+As is fairly intuitive, the swap adjacent operator reduces the variety in the
+population. However, it doesn't allow the GA to get as close to the optimal
+solution as the swap operator does.
+
+Although the swap operator doesn't preserve tours as well, it seems to allow
+the genetic algorithm to easier get out of local minima, whilst limiting the
+swap to only adjacent genes is too limiting and the algorithm can often get
+caught in local minima.
+
+It may be the case that limiting the swap to the two (or more) adjacent nodes
+would help it to avoid this problem and this may be an interesting, if small,
+piece of research to perform.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n38p100c07m025}
+\caption{Swap Mutation Operator}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapadjecentmutator/n38p100c07m025}
+\caption{Swap Adjacent Mutation Operator}
+\end{subfigure}
+\caption{Results on different mutation operators on a data set with 38 nodes.
+         All used a population of 100, crossover rate of 0.7, mutation rate of
+         0.25 and with the order crossover operator}
+\label{fig:mutation-results}
+\end{figure}
+
+
+\subsection{Applying the GA to larger problems}
+
+Another important application of a GA is the ability to apply it to larger data
+sets. Due to time limitations the number of runs the results are averaged over
+has been reduced to 25, but the number of generations has been increased to 
+1000 to allow the GA more opportunity to reach optimal values. The problem used
+had a total of 194 nodes.
+
+To further compare the crossover schemes from earlier, the time taken to
+execute was also recorded using the GNU Tools \texttt{time} command. These
+results are shown in table~\ref{tab:time-results} and the graphs are shown in
+figure~\ref{fig:time-graph-results}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|} \hline
+\textbf{Crossover Operator}	& \textbf{User}	&\textbf{System}&\textbf{CPU}	& \textbf{Total} \\ \hline
+Cycle Crossover			&		&		&		& \\ \hline
+Order Crossover Operator	& 1665.10s	& 0.12s		& 99\%		& 27:46.47 \\ \hline
+M-Crossover Operator		& 		& 		& 		& \\ \hline
+\end{tabular}
+\caption{Results of the \texttt{time} command for the different crossover
+         operators on a GA with a population of 100, crossover rate of 0.7,
+         mutation rate of 0.1 and with the swap mutation operator.}
+\label{tab:time-results}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/cyclecrossover/swapmutator/n194p100c07m01}
+\caption{Cycle Crossover}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n194p100c07m01}
+\caption{Order Crossover Operator}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/mcrossover/swapmutator/n194p100c07m01}
+\caption{M-Crossover Operator}
+\end{subfigure}
+
+\caption{Results on different crossover operators on a data set with 194 nodes.
+         All used a population of 100, crossover rate of 0.7, mutation rate of 
+         0.1 and the swap mutator}
+\end{figure}
 
 \section{Conclusions}
 %TODO
