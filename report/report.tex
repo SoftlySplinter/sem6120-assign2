@@ -243,7 +243,7 @@ Three main types of crossover strategies were implemented for this research:
 
 \begin{enumerate}
 \item Cycle Crossover,
-\item Order-1 Crossover,
+\item Order Crossover Operator,
 \item M-Crossover Operator.%TODO\cite
 \end{enumerate}
 
@@ -262,7 +262,65 @@ $i$ is chosen. The gene at $i$ in $p_1$ ($r = p_1(i)$) is removed and replaced
 with $p_1(i) = p_2(i)$. The position of the removed allele $r$ is found in 
 $p_2$ such that $i = index(r, p_2)$. This process is repeated until a cycle
 occurs (i.e. the removed allele $r$ is the same as the initially removed 
-allele.
+allele).
+
+Figure~\ref{fig:cycle-crossover} shows this process step by step on two ordered
+chromosomes. Note that it only by chance that parts of the tour are preserved.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/cycle-crossover.png}
+\caption{Cycle Crossover}
+\label{fig:cycle-crossover}
+\end{figure}
+
+
+\subsubsection{Order Crossover Operator}
+
+The order crossover operator is another simple order-based crossover operator.
+Unlike cycle crossover, it preserves at least part of a tour from one of the
+parents.
+
+To produce a child, $c$, from parents $p_1, p_2$, a random segment from $p_1$ 
+is appended to the remaining genes from $p_2$, omitting any alleles that are
+also in the segment from $p_1$.
+
+Figure~\ref{fig:order-crossover-operator} shows this process step by step on
+two ordered chromosomes. Note that at least a part of the tour is always
+preserved and that it is often the case that a part of a tour from $p_1$ and
+$p_2$ is preserved in $c$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/order-crossover-operator}
+\caption{Order Crossover Operator}
+\label{fig:order-crossover-operator}
+\end{figure}
+
+
+\subsubsection{M-Crossover Operator}
+
+The m-crossover operator\cite{Mudaliar2013Unraveling} produces multiple 
+offspring ($C$) from parents $p_1, p_2$ then selects the best two from this 
+process.
+
+Like with the order crossover operator, this is based on segmenting the
+chromosomes. However, both chromosomes are split into several segments. Every
+segment of $p_1$ is inserted at any point in front, behind or between the
+segments of $p_2$ and vice versa. The new, elongated chromosome is then
+processed such that any allele in the added segment is removed from all other
+segments to produce the child at that point.
+
+The fitness of these children is then evaulated and the best two are carried 
+forward as the offspring of these parents.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/m-crossover-operator}
+\caption{M-Crossover Operator}
+\label{fig:m-crossover-operator}
+\end{figure}
+
  
 \section{Results}
 \label{sec:results}
