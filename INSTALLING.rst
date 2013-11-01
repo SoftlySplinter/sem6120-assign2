@@ -10,6 +10,7 @@ Requirements
 * numpy (http://www.numpy.org)
 * setup tools (https://pypi.python.org/pypi/setuptools)
 * progressbar (http://code.google.com/p/python-progressbar/)
+* argparse (http://docs.python.org/dev/library/argparse.html)
 
 Installation
 ------------

@@ -85,7 +85,6 @@ but are designed to solve the problem of optimisation which is made difficult
 by substantial complexity and uncertainty\cite{Holland1992Adaptation}.
 
 \subsection{Travelling Salesman Problem}
-%TODO this section need citations.
 The Travelling Salesman Problem is a well-known NP-hard optimisation problem
 which asks the question: \textit{``Given a number of cities and the distances 
 between these cities, find the shortest touch which visits each city exactly 
@@ -109,10 +108,11 @@ these ordered chromosomes.
 
 \newpage
 \section{Design}
-% TODO Introduction
+This section describes the design of the implementation, from high-level
+concepts like the system design, to details on the implementation and uses of
+programming paradigms to make the code succinct.
 
 \subsection{System Design}
-% TODO
 % Overall idea: modularise system
 As with most coding problems with multiple options, a modular approach is
 necessary to keep code quality high. This is typically done by defining
@@ -244,12 +244,11 @@ Three main types of crossover strategies were implemented for this research:
 \begin{enumerate}
 \item Cycle Crossover,
 \item Order Crossover Operator,
-\item M-Crossover Operator.%TODO\cite
+\item M-Crossover Operator.
 \end{enumerate}
 
 All three are designed to work with ordered chromosomes, meaning they can be
 applied directly to the Travelling Salesman Problem without any modification.
-%TODO for comparison a non-ordered strategy was implemented and modified.
 
 \subsubsection{Cycle Crossover}
 
@@ -344,7 +343,13 @@ changing small parts of it.
 
 Although genetic algorithms benefit greatly from a multi-threaded approach,
 there was not enough time to make the code parallel. The attempts made to do so
-led 
+led to many errors which would have caused major changes in the code (i.e.\
+changing from an object-orientated approach to a procedural one) which were too
+costly to take.
+
+The author's knowledge of multi-threading in Python is not that great so there
+may have been a better solution, but the time was better spent on implementing
+other crossover operators for comparison.
 
 
  
@@ -601,7 +606,7 @@ figure~\ref{fig:time-graph-results}.
 \centering
 \begin{tabular}{|c|c|c|c|c|} \hline
 \textbf{Crossover Operator}	& \textbf{User}	&\textbf{System}&\textbf{CPU}	& \textbf{Total} \\ \hline
-Cycle Crossover			&		&		&		& \\ \hline
+Cycle Crossover			& 1150.65s	& 0.22s		& 99\%		& 19:12.02 \\ \hline
 Order Crossover Operator	& 1665.10s	& 0.12s		& 99\%		& 27:46.47 \\ \hline
 M-Crossover Operator		& 		& 		& 		& \\ \hline
 \end{tabular}
@@ -610,6 +615,13 @@ M-Crossover Operator		& 		& 		& 		& \\ \hline
          mutation rate of 0.1 and with the swap mutation operator.}
 \label{tab:time-results}
 \end{table}
+
+It is interesting to see that cycle crossover is somewhat faster for faster for
+larger problems, but the difference in best solution is so big enough that the
+extra processing time seems worth it.
+
+The amount of time it takes for the m-crossover operator take to complete is so
+slow that it doesn't seem worth it %TODO
 
 \begin{figure}[h]
 \centering
@@ -631,6 +643,7 @@ M-Crossover Operator		& 		& 		& 		& \\ \hline
 \caption{Results on different crossover operators on a data set with 194 nodes.
          All used a population of 100, crossover rate of 0.7, mutation rate of 
          0.1 and the swap mutator}
+\label{fig:time-graph-results}
 \end{figure}
 
 \section{Conclusions}
