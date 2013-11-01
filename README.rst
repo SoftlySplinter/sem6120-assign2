@@ -1,6 +1,8 @@
 SEM/CSM6120 Assignment: October 2013
 ====================================
 
+For installation and run instructions, see INSTALLING.rst
+
 Solving Travelling Salesman Problems with Genetic Algorithms
 ------------------------------------------------------------
 
@@ -11,7 +13,7 @@ the overall distance travelled is minimised.
 
 Several such example problems can be found here: 
 http://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/index.html and
- http://www.tsp.gatech.edu/world/countries.html
+http://www.tsp.gatech.edu/world/countries.html
 
 The format of the data is as follows::
 
@@ -101,7 +103,7 @@ For the first part of the report, show the design of the system, discussing the
 choices you made in part 1.
 
 Describe how you structured the program, what representation you chose, how you
- solved any problems encountered, etc. **[20marks]**
+solved any problems encountered, etc. **[20marks]**
 
 For the second part of the report, you should conduct experimentation using at 
 least three small TSPs from the URLs above (or another source, if you prefer - 

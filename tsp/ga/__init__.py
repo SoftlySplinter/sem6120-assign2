@@ -29,13 +29,13 @@ class GA:
 
   def perform_crossover(self, parents):
     children = []
-    while len(children) < len(self.population):
+    while len(children) < int(len(self.population) * self.crossover_rate):
       if random.random() < self.crossover_rate:
         p1 = random.choice(parents)
         p2 = random.choice(parents)
         (c1, c2) = self.crossover.crossover(p1, p2)
         children += [c1, c2]
-    return children
+    return children[:int(len(self.population) * self.crossover_rate)]
 
   def perform_mutation(self, children):
     to_mutate = [child for child in children 
@@ -43,21 +43,32 @@ class GA:
     map(self.mutator.mutate, to_mutate)
 
   def perform_dismissal(self, parents, children):
-    temp = parents[:5] + children[5:]
-    assert parents[0] == temp[0]
+    a = int(len(self.population) * self.crossover_rate)
+    temp = parents[:len(self.population) - a] + children
+    assert len(temp) == len(self.population)
     return temp
 
   def evaluate(self):
-    return sorted(map(self.evaluate_single, self.population), 
-                  key = lambda x: x.score)
+    return sorted(self.population, 
+                  key = lambda x: x.fitness())
 
-  def evaluate_single(self, chromosome):
-    chromosome.score = chromosome.fitness()
-    return chromosome
+  def file_path(self):
+    return "{}/{}/".format(str(self.crossover).lower(),
+                           str(self.mutator).lower())
+
+  def file_name(self):
+    return "p{}c{}m{}".format(len(self.population),
+                              str(self.crossover_rate).replace(".", ""),
+                              str(self.mutation_rate).replace(".", ""))
 
   def __str__(self):
-    return ("Selection Scheme: {}\nCrossover Scheme: {}\nMutation Scheme: {}"
-            .format(self.selector, self.crossover, self.mutator))
+    return ("GA with P={} C={} M={}\n{}, {} and {}"
+            .format(len(self.population), 
+                    self.crossover_rate,
+                    self.mutation_rate, 
+                    self.selector, 
+                    self.crossover, 
+                    self.mutator))
 
 class GAFactory:
   @classmethod

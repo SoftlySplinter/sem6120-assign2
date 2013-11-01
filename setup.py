@@ -23,7 +23,7 @@ setup(
 
     # Requirements
     install_requires = [
-      'psutil',
+      'progressbar'
     ],
 
 )
