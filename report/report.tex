@@ -406,7 +406,7 @@ possible offspring from the parents.
 It seems that the m-crossover operator is good for getting a quick estimate of
 the problem in a low number of generations. But for finding a solution as close
 to the optimal as possible it would seem that it isn't the best crossover
-operator. %TODO how does this compare to the authors claims.
+operator.
 
 The other issue with the m-crossover operator is that it consumes a lot more
 resources and time than the other two, as it has to generate extra children,
@@ -608,7 +608,7 @@ figure~\ref{fig:time-graph-results}.
 \textbf{Crossover Operator}	& \textbf{User}	&\textbf{System}&\textbf{CPU}	& \textbf{Total} \\ \hline
 Cycle Crossover			& 1150.65s	& 0.22s		& 99\%		& 19:12.02 \\ \hline
 Order Crossover Operator	& 1665.10s	& 0.12s		& 99\%		& 27:46.47 \\ \hline
-M-Crossover Operator		& 		& 		& 		& \\ \hline
+M-Crossover Operator		& 12998.65s	& 1.00s		& 99\%		& 3:36:54.00\\ \hline
 \end{tabular}
 \caption{Results of the \texttt{time} command for the different crossover
          operators on a GA with a population of 100, crossover rate of 0.7,
@@ -621,7 +621,9 @@ larger problems, but the difference in best solution is so big enough that the
 extra processing time seems worth it.
 
 The amount of time it takes for the m-crossover operator take to complete is so
-slow that it doesn't seem worth it %TODO
+slow that it doesn't seem worth it. However, looking at the graphs, a good
+results was gained in less than 200 generations, and the rest of the time was
+spent slowly optimising the solution.
 
 \begin{figure}[h]
 \centering
@@ -636,7 +638,7 @@ slow that it doesn't seem worth it %TODO
 \end{subfigure}
 
 \begin{subfigure}[b]{0.67\textwidth}
-\includegraphics[width=\textwidth]{img/results/mcrossover/swapmutator/n194p100c07m01}
+\includegraphics[width=\textwidth]{img/results/mcrossoveroperator/swapmutator/n194p100c07m01}
 \caption{M-Crossover Operator}
 \end{subfigure}
 
@@ -646,9 +648,88 @@ slow that it doesn't seem worth it %TODO
 \label{fig:time-graph-results}
 \end{figure}
 
-\section{Conclusions}
-%TODO
 
+\subsubsection{Getting Early Results}
+
+All the m-crossover operator performs well in the early stage of the GA it
+seems fair to compare how each crossover operator performs with a limited 
+number of generation. A smaller problem with 29 nodes was chosen. The GAs were
+given 50 generations to run and were averaged over 100 runs.
+
+Figure~\ref{fig:early-cutoff-results} shows the experimental results.
+
+Again, the m-crossover operator optimises the solution in very few generations,
+but the order crossover operator still manages to compete well with it. If the
+generations had of been limited to 15, the m-crossover operator would have been
+a useful technique and, certainly for larger data sets, it may be very useful
+for the use of gaining a very quick approximate.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/cyclecrossover/swapmutator/n29p100c07m01}
+\caption{Cycle Crossover}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/order1crossover/swapmutator/n29p100c07m01}
+\caption{Order Crossover Operator}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.67\textwidth}
+\includegraphics[width=\textwidth]{img/results/mcrossoveroperator/swapmutator/n29p100c07m01}
+\caption{M-Crossover Operator}
+\end{subfigure}
+\caption{Results on different crossover operators on a data set with 29 nodes.
+         All used a population of 100, crossover rate of 0.7, mutation rate of
+         0.1, with the swap mutation operator. This was cut off after only a
+         short number of generations}
+\label{fig:early-cutoff-results}
+
+\end{figure}
+
+
+\newpage
+\section{Conclusions}
+
+The order crossover operator is one of the simplest and best crossover 
+operators for ordered chromosomes which is computationally cheap to use. Though
+it does have some flaws, particularly seeming never to truly converge, its
+performance from the above results are fairly conclusive that it can reach a
+solution very close to the optimal given enough time.
+
+Unfortunately, the m-crossover operator did not perform as well as expected and
+the time complexity of it means that it might not be applicable to large
+problems. This does not agree with the research which suggested
+it\cite{Mudaliar2013Unraveling} as order crossover operators performed worse in
+their experiments. Because they did not take into account the exact tour length
+and only used a simplified approach, it would seem that they did not get
+accurate results. 
+
+Their results do agree that the m-crossover operator performs well in early 
+generation, but slows quickly. However, with some optimisation and 
+multi-threading, it may be fast enough to get a reasonable solution to a 
+problem in a short period of time, where any other crossover operator would
+require more generations to come to a good solution.
+
+It may be the case that the m-crossover operator might benefit from having the
+same process of selection performed upon it as the GA would, rather than just
+selecting the best two offspring. Further research should follow to investigate
+and evaluate this topic.
+
+Due to time constraints, selection schemes were not investigated and tournament
+selection was used for all experimental results. A case could be made that
+tournament selection was not the best selection scheme for some of the
+researched fields. However, the authors previous work into the field would 
+suggest that tournament selection is very good for most applications. It might
+be worth implementing a roulette wheel selection scheme at a later date to
+properly verify the results.
+
+The method used to perform throw away was not the best, choosing a proportion
+based on the crossover rate seems to have skewed the results for the crossover
+rate experiments, elite preservation might have been a better strategy as the
+ratio of offspring to parents would have been kept stable and would have made
+the results more comparable.
 
 \bibliographystyle{plain}
 \bibliography{citations}
