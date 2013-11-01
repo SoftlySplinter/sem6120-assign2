@@ -64,10 +64,10 @@ def run(total_generations, average_over, args, g, gui):
   plot.xlabel("Generations")
   # TODO make this a bit more solid.
 #  plot.ylim(ymin=9352, ymax=100000) # 129
-  plot.ylim(ymin=6656, ymax=30000) #dj34
+#  plot.ylim(ymin=6656, ymax=30000) #dj34
   plot.ylabel("Route Length (fitness)")
-#  plot.show()
-  plot.savefig('report/img/results/{}n{}{}.png'.format(ga.file_path(), g.dimension, ga.file_name()), papertype='a4')
+  plot.show()
+#  plot.savefig('report/img/results/{}n{}{}.png'.format(ga.file_path(), g.dimension, ga.file_name()), papertype='a4')
 
 def do_run(total_generations, args, g, gui):
   ga = GAFactory.getGA(args, g)
